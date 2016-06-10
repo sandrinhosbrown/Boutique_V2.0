@@ -229,6 +229,10 @@ public class DatosPrendas extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
         private boolean comprobarCampos(){
+            // Parseamos el contenido de los jTextField (cadenas) a double
+            double pc = Double.parseDouble(jTextField3.getText());
+            double pv = Double.parseDouble(jTextField4.getText());
+            
             //Nos aseguramos que el codigo no este vacio ni sea mayor de 8 caracteres
             if(jTextField1.getText().isEmpty()){
                 JOptionPane.showMessageDialog(this, "No se puede dejar el codigo en blanco",
@@ -246,17 +250,18 @@ public class DatosPrendas extends javax.swing.JDialog {
                         "ERROR: Descripcion erronea", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            // Verificamos que el precio de Coste/Venta no este vacío
-            if(jTextField3.getText().isEmpty()){
-                JOptionPane.showMessageDialog(this, "El precio de coste no puede estar vacío",
+            // Verificamos que el precio de Coste/Venta no sean cero
+            if (pc == 0.0){
+                JOptionPane.showMessageDialog(this, "El precio de coste no puede ser cero",
                         "ERROR: Precio coste erroneo", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            if(jTextField4.getText().isEmpty()){
-                JOptionPane.showMessageDialog(this, "El precio de venta no puede estar vacío",
+            if(pv == 0.0){
+                JOptionPane.showMessageDialog(this, "El precio de venta no puede ser cero",
                         "ERROR: Precio venta erroneo", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
+            // Debe de seleccionar una talla y un color
             if(jComboBox1.getSelectedIndex() == 0){
                 JOptionPane.showMessageDialog(this, "Debes seleccionar una Talla",
                         "ERROR: Talla no seleccioanda", JOptionPane.ERROR_MESSAGE);
@@ -270,13 +275,7 @@ public class DatosPrendas extends javax.swing.JDialog {
             return true;
         }
         
-        
-        //TODO: Precio Coste, Precio Venta, Stock en blanco, hay algo que no permite la alta
 
-        
-        
-        
-        
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

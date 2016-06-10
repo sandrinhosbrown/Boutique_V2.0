@@ -33,13 +33,13 @@ public class PrendaJDBC {
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()) {
                     Prenda prenda = new Prenda();
-                    prenda.setCodigo(rs.getString("Codigo")); // o bien rs.getString(1)
-                    prenda.setDescripcion(rs.getString("Descripcion"));
-                    prenda.setTalla(rs.getString("Talla"));
-                    prenda.setColor(rs.getString("Color"));
-                    prenda.setPrecioCoste(rs.getDouble("Precio Coste"));
-                    prenda.setPrecioVenta(rs.getDouble("Precio Venta"));
-                    prenda.setStock(rs.getInt("Stock"));
+                    prenda.setCodigo(rs.getString("codigo")); // o bien rs.getString(1)
+                    prenda.setDescripcion(rs.getString("descripcion"));
+                    prenda.setTalla(rs.getString("talla"));
+                    prenda.setColor(rs.getString("color"));
+                    prenda.setPrecioCoste(rs.getDouble("precioCoste"));
+                    prenda.setPrecioVenta(rs.getDouble("precioVenta"));
+                    prenda.setStock(rs.getInt("stock"));
                     listaPrendas.altaPrenda(prenda);
                 }
                 // cerramos recursos
@@ -112,7 +112,35 @@ public class PrendaJDBC {
         }
         return false;
     }
-    
+    // Funcion para borrar una prenda de la BBDD
+    public boolean borrarPrenda(Prenda prenda){
+        //abrimos la conexión
+        conectar();
+        if(conexion != null){
+            try {
+                String delete = "delete from prenda where codigo=?";
+                PreparedStatement ps = conexion.prepareStatement(delete);
+                ps.setString(1, prenda.getCodigo());
+//                ps.setString(2, prenda.getDescripcion());
+//                ps.setString(3, prenda.getTalla());
+//                ps.setString(4, prenda.getColor());
+//                ps.setDouble(5, prenda.getPrecioCoste());
+//                ps.setDouble(6, prenda.getPrecioVenta());
+//                ps.setInt(7, prenda.getStock());
+                ps.executeUpdate();     //Ejecuta la consulta
+                ps.close();             //Liberamos recursos
+                return true;
+            } catch (SQLException ex) {
+//                Logger.getLogger(PrendaJDBC.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Error al borrar los datos: "+ex.getMessage());
+            } finally {
+                desconectar();
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
 
 // Funcion para establecer la conexion con el servidor
     private void conectar() {

@@ -1,12 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * En este Menu vamos a gestionar: Modificar Prenda, Eliminar Prenda
  */
 package vista;
 
 import dao.PrendaJDBC;
+import javax.swing.JOptionPane;
 import modelo.ListaPrendas;
+import modelo.Prenda;
 
 /**
  *
@@ -16,23 +16,32 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
     // Declaramos las variables listaPrendas y prendaJDBC
     private ListaPrendas prendas;
     private PrendaJDBC prendaJDBC; // No hace falta Getter/Setter
+    private Prenda prendaSeleccionada;
 
-    public ListaPrendas getListaPrendas() {
+    public Prenda getPrendaSeleccionada() {
+        return prendaSeleccionada;
+    }
+
+    public void setPrendaSeleccionada(Prenda prendaSeleccionada) {
+        this.prendaSeleccionada = prendaSeleccionada;
+    }
+
+    public ListaPrendas getPrendas() {
         return prendas;
     }
 
-    public void setListaPrendas(ListaPrendas prendas) {
+    public void setPrendas(ListaPrendas prendas) {
         this.prendas = prendas;
     }
-
+    
         
     /**
      * Creates new form GestionPrendas
      */
     public GestionPrendas() {
-//        ListaPrendas = new ListaPrendas();
         prendaJDBC = new PrendaJDBC();
         prendas = prendaJDBC.selectAllPrendas();
+        prendaSeleccionada = new Prenda();
         initComponents();
     }
 
@@ -50,6 +59,7 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Gestion de Prendas");
@@ -95,6 +105,13 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton3.setText("Salir");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,22 +122,25 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -129,17 +149,39 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // MODIFICAR
+        // TODO: MODIFICAR
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // BORRAR
+        // TODO: BORRAR
+        if (jTable1.getSelectedRow() < 0){
+            JOptionPane.showMessageDialog(this,"Debes seleccionar una prenda");
+        } else {
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Estás seguro?", "CONFIRMA", 
+                    JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION){
+                // llamamos a la funcion bajaprenda de ListaPrendas
+                prendas.bajaprenda(prendaSeleccionada);
+                // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
+                prendaJDBC.borrarPrenda(prendaSeleccionada);
+                //Boutique.misPrendas.borrarPrenda(prendaSeleccionada);
+                //Boutique.miFichero.grabar(Boutique.misPrendas);
+                JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
+                dispose();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
