@@ -1,15 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Menu Principal del programa Boutique
  */
 package vista;
 
-import javax.swing.JInternalFrame;
+import dao.PrendaJDBC;
+import exception.miExcepcion;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author usu21
+ * @author Sandro Gamarra
  */
 public class MenuPrincipal extends javax.swing.JFrame {
 
@@ -39,25 +39,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jDesktopPane1.setToolTipText("");
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 598, Short.MAX_VALUE)
+            .addGap(0, 586, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 391, Short.MAX_VALUE)
+            .addGap(0, 387, Short.MAX_VALUE)
         );
 
         jMenuBar1.setToolTipText("");
         jMenuBar1.setName(""); // NOI18N
 
         jMenu1.setText("Prendas");
+        jMenu1.setPreferredSize(new java.awt.Dimension(80, 19));
 
         jMenuItem1.setText("Nueva Prenda");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +82,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator2);
 
-        jMenuItem7.setText("Salir");
+        jMenuItem7.setText("Cerrar aplicación");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -87,6 +93,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Consultas");
+        jMenu2.setPreferredSize(new java.awt.Dimension(150, 19));
 
         jMenuItem3.setText("Listado de Prendas");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +102,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Listado PrendasxColor");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
         jMenu2.add(jSeparator1);
+
+        jMenuItem5.setText("Total Valor Stock");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuItem6.setText("Total Prendas");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem6);
 
         jMenuBar1.add(jMenu2);
 
@@ -122,10 +153,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO: GESTION DE PRENDAS: Modificar y Eliminar una prenda de la boutique
-        GestionPrendas gestionPrendas = new GestionPrendas(); //InternalFrame no necesita pasarle parametros (this, true)
-        jDesktopPane1.add(gestionPrendas);
-        gestionPrendas.setVisible(true);
+        // GESTION DE PRENDAS: Modificar una prenda de la boutique
+        // TODO: Eliminar una prenda
+        try {
+            GestionPrendas gestionPrendas;
+            gestionPrendas = new GestionPrendas(); //InternalFrame no necesita pasarle parametros (this, true)
+            jDesktopPane1.add(gestionPrendas);
+            gestionPrendas.setVisible(true);
+        } catch (miExcepcion ex) {
+            JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
+
+        }
+        
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -133,11 +172,40 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // LISTADO DE PRENDAS
-        ListadoPrendas listadoPrendas = new ListadoPrendas();
-        jDesktopPane1.add(listadoPrendas);
-        listadoPrendas.setVisible(true);
+        try {
+            // LISTADO DE PRENDAS
+            ListadoPrendas listadoPrendas = new ListadoPrendas();
+            jDesktopPane1.add(listadoPrendas);
+            listadoPrendas.setVisible(true);
+        } catch (miExcepcion ex) {
+            JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        try {
+            // PRENDAS POR COLOR
+            SeleccionarColor sc = new SeleccionarColor(this, true);
+            sc.setLocationRelativeTo(null);
+            sc.setVisible(true);
+        } catch (miExcepcion ex) {
+            JOptionPane.showMessageDialog(this, ex.getLocalizedMessage());
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TOTAL VALOR STOCK
+        JOptionPane.showMessageDialog(this, "El valor del stock es de " 
+                + PrendaJDBC.valorTotal() + " Euros" + );
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TOTAL PRENDAS
+        JOptionPane.showMessageDialog(this, "En total hay " 
+                + PrendaJDBC.totalPrendas() + " prendas");
+        
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -148,6 +216,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;

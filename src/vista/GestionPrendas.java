@@ -4,13 +4,16 @@
 package vista;
 
 import dao.PrendaJDBC;
+import exception.miExcepcion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.ListaPrendas;
 import modelo.Prenda;
 
 /**
  *
- * @author usu21
+ * @author Sandro Gamarra
  */
 public class GestionPrendas extends javax.swing.JInternalFrame {
     // Declaramos las variables listaPrendas y prendaJDBC
@@ -38,11 +41,16 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
     /**
      * Creates new form GestionPrendas
      */
-    public GestionPrendas() {
-        prendaJDBC = new PrendaJDBC();
-        prendas = prendaJDBC.selectAllPrendas();
-        prendaSeleccionada = new Prenda();
-        initComponents();
+    public GestionPrendas() throws miExcepcion {
+        try {
+            prendaJDBC = new PrendaJDBC();
+            prendas = prendaJDBC.selectAllPrendas();
+            prendaSeleccionada = new Prenda();
+            initComponents();
+        } catch (miExcepcion ex) {
+            throw new miExcepcion("Error en la consulta " + ex.getLocalizedMessage());
+        }
+        
     }
 
     /**
@@ -64,31 +72,40 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Gestion de Prendas");
 
-        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaPrendas.lista}");
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${prendas.lista}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codigo}"));
         columnBinding.setColumnName("Codigo");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${descripcion}"));
         columnBinding.setColumnName("Descripcion");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${talla}"));
         columnBinding.setColumnName("Talla");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${color}"));
         columnBinding.setColumnName("Color");
         columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precioCoste}"));
         columnBinding.setColumnName("Precio Coste");
         columnBinding.setColumnClass(Double.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${precioVenta}"));
         columnBinding.setColumnName("Precio Venta");
         columnBinding.setColumnClass(Double.class);
+        columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${stock}"));
         columnBinding.setColumnName("Stock");
         columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${prendaSeleccionada}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Modificar");
@@ -149,8 +166,24 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO: MODIFICAR
-        
+        // TODO: MODIFICAR: Llamará al JinternalFrame
+        if (jTable1.getSelectedRow() < 0){
+            JOptionPane.showMessageDialog(this,"Debes seleccionar una prenda");
+        } else {
+            ModificarStock modificarStock = new ModificarStock(null,true,prendaSeleccionada);
+            modificarStock.setVisible(true);
+//            int respuesta = JOptionPane.showConfirmDialog(this, "¿Quieres modificar el Stock de esta prenda?", "CONFIRMA", 
+//                    JOptionPane.YES_NO_OPTION);
+//            if (respuesta == JOptionPane.YES_OPTION){
+//                
+//                prendas.cantidadPrendas();
+//                
+//                // creamos en PrendaJDBC la funcion actualizarPrenda que la invocaremos aqui
+//                prendaJDBC.actualizarPrenda(prendaSeleccionada);
+//                JOptionPane.showMessageDialog(this, "Prenda modificada con exito");
+//                dispose();
+//            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -160,15 +193,18 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
         } else {
             int respuesta = JOptionPane.showConfirmDialog(this, "¿Estás seguro?", "CONFIRMA", 
                     JOptionPane.YES_NO_OPTION);
-            if (respuesta == JOptionPane.YES_OPTION){
-                // llamamos a la funcion bajaprenda de ListaPrendas
-                prendas.bajaprenda(prendaSeleccionada);
-                // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
-                prendaJDBC.borrarPrenda(prendaSeleccionada);
-                //Boutique.misPrendas.borrarPrenda(prendaSeleccionada);
-                //Boutique.miFichero.grabar(Boutique.misPrendas);
-                JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
-                dispose();
+            if (respuesta == JOptionPane.YES_OPTION) {
+                try {
+                    // llamamos a la funcion bajaprenda de ListaPrendas
+                    prendas.bajaprenda(prendaSeleccionada);
+                    // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
+                    prendaJDBC.borrarPrenda(prendaSeleccionada);
+                    JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
+                    dispose();
+                } catch (miExcepcion ex) {
+                    JOptionPane.showMessageDialog(this, "No se pudo borrar la prenda",
+                            "ERROR: Prenda no borrada", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

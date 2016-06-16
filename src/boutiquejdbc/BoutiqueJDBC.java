@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Vista del Menu Principal
  */
 package boutiquejdbc;
 
@@ -9,7 +7,7 @@ import vista.MenuPrincipal;
 
 /**
  *
- * @author usu21
+ * @author Sandro Gamarra
  */
 public class BoutiqueJDBC {
 

@@ -6,6 +6,9 @@
 package vista;
 
 import dao.PrendaJDBC;
+import exception.miExcepcion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import modelo.Prenda;
@@ -218,12 +221,14 @@ public class DatosPrendas extends javax.swing.JDialog {
         // una vez comprobados los campos, insertamos los datos
         // si hay algun error, nos mostrará un mensaje de error
         if (comprobarCampos()){
-            if (prendaJDBC.insertarPrenda(prenda)){
-                JOptionPane.showMessageDialog(this, "Prenda dada de alta!");
-                dispose();
-            } else {
+            try {
+                if (prendaJDBC.insertarPrenda(prenda)){
+                    JOptionPane.showMessageDialog(this, "Prenda dada de alta!");
+                    dispose();
+                } 
+            } catch (miExcepcion ex) {
                 JOptionPane.showMessageDialog(this, "No se pudo insertar la prenda",
-                        "ERROR: Prenda no dada de alta", JOptionPane.ERROR_MESSAGE);
+                            "ERROR: Prenda no dada de alta", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

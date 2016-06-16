@@ -8,13 +8,15 @@ package modelo;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 
 
 /**
  *
- * @author usu21
+ * @author Sandro Gamarra
  */
 public class ListaPrendas {
     
@@ -33,6 +35,55 @@ public class ListaPrendas {
         lista.remove(p);
     }
     
+    
+    
+    
+    public int cantidadPrendas() {
+        return lista.size();
+    }
+    
+    public boolean existePrenda(Prenda p) {
+        return lista.contains(p);
+    }
+    
+    public ArrayList<String> listadoColores() {
+        ArrayList<String> tempColores = new ArrayList<>();
+        
+        for (Prenda p : lista)
+            tempColores.add(p.getColor());
+                
+        ArrayList<String> colores = new ArrayList<>(new HashSet<>(tempColores));
+        Collections.sort(colores);
+        
+        return colores;
+    }
+    
+    public ListaPrendas prendasPorColor(String color) {        
+        ListaPrendas prendasPorColor = new ListaPrendas();
+        
+        for (Prenda p : lista)
+            if (p.getColor().equalsIgnoreCase(color)) prendasPorColor.altaPrenda(p);
+                
+        return prendasPorColor;
+    }
+    
+    public int cantidadStock() {
+        int cantidad = 0;
+        
+        for (Prenda p : lista)
+            cantidad += p.getStock();
+        
+        return cantidad;
+    }
+    
+    public double valoracionStock() {
+        double valoracion = 0;
+        
+        for (Prenda p : lista)
+            valoracion += p.getPrecioCoste() * p.getStock();
+        
+        return valoracion;
+    }
     
     
     public static final String PROP_LISTA = "lista";

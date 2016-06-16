@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *
  */
 package modelo;
 
@@ -10,7 +8,7 @@ import java.beans.PropertyChangeSupport;
 
 /**
  *
- * @author usu21
+ * @author Sandro Gamarra
  */
 public class Prenda { //Declaramos las variables y hacemos BOUND
         // pq son realmente las entidades de nuestro programa
@@ -131,9 +129,4 @@ public class Prenda { //Declaramos las variables y hacemos BOUND
         propertyChangeSupport.removePropertyChangeListener(listener);
     }
 
-    
-
-   
-    
-    
 }
