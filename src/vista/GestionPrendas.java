@@ -16,6 +16,7 @@ import modelo.Prenda;
  * @author Sandro Gamarra
  */
 public class GestionPrendas extends javax.swing.JInternalFrame {
+
     // Declaramos las variables listaPrendas y prendaJDBC
     private ListaPrendas prendas;
     private PrendaJDBC prendaJDBC; // No hace falta Getter/Setter
@@ -36,8 +37,7 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
     public void setPrendas(ListaPrendas prendas) {
         this.prendas = prendas;
     }
-    
-        
+
     /**
      * Creates new form GestionPrendas
      */
@@ -50,7 +50,7 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
         } catch (miExcepcion ex) {
             throw new miExcepcion("Error en la consulta " + ex.getLocalizedMessage());
         }
-        
+
     }
 
     /**
@@ -167,10 +167,10 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO: MODIFICAR: Llamará al JinternalFrame
-        if (jTable1.getSelectedRow() < 0){
-            JOptionPane.showMessageDialog(this,"Debes seleccionar una prenda");
+        if (jTable1.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una prenda");
         } else {
-            ModificarStock modificarStock = new ModificarStock(null,true,prendaSeleccionada);
+            ModificarStock modificarStock = new ModificarStock(null, true, prendaSeleccionada);
             modificarStock.setVisible(true);
 //            int respuesta = JOptionPane.showConfirmDialog(this, "¿Quieres modificar el Stock de esta prenda?", "CONFIRMA", 
 //                    JOptionPane.YES_NO_OPTION);
@@ -188,17 +188,17 @@ public class GestionPrendas extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO: BORRAR
-        if (jTable1.getSelectedRow() < 0){
-            JOptionPane.showMessageDialog(this,"Debes seleccionar una prenda");
+        if (jTable1.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(this, "Debes seleccionar una prenda");
         } else {
-            int respuesta = JOptionPane.showConfirmDialog(this, "¿Estás seguro?", "CONFIRMA", 
+            int respuesta = JOptionPane.showConfirmDialog(this, "¿Estás seguro?", "CONFIRMA",
                     JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.YES_OPTION) {
                 try {
-                    // llamamos a la funcion bajaprenda de ListaPrendas
-                    prendas.bajaprenda(prendaSeleccionada);
                     // creamos en PrendaJDBC la funcion borrarPrenda que la invocaremos aqui
                     prendaJDBC.borrarPrenda(prendaSeleccionada);
+                    // llamamos a la funcion bajaprenda de ListaPrendas
+                    prendas.bajaprenda(prendaSeleccionada);
                     JOptionPane.showMessageDialog(this, "Prenda borrada con exito");
                     dispose();
                 } catch (miExcepcion ex) {
