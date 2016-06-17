@@ -5,6 +5,8 @@ package vista;
 
 import dao.PrendaJDBC;
 import exception.miExcepcion;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -195,15 +197,30 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TOTAL VALOR STOCK
-        JOptionPane.showMessageDialog(this, "El valor del stock es de " 
-                + PrendaJDBC.valorTotal() + " Euros" + );
+//        JOptionPane.showMessageDialog(this, "El valor del stock es de " 
+//                + PrendaJDBC.valorTotal() + " Euros" + );
+        // No te funcionaba porque llamas al método a través de la clase y no a una instancia de la misma.
+        // Solución:
+        PrendaJDBC prendaJDBC = new PrendaJDBC();
+        try {
+            JOptionPane.showMessageDialog(this, "El valor del stock es de "+prendaJDBC.valorTotal()+ " euros.");
+        } catch (miExcepcion ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TOTAL PRENDAS
-        JOptionPane.showMessageDialog(this, "En total hay " 
-                + PrendaJDBC.totalPrendas() + " prendas");
+//        JOptionPane.showMessageDialog(this, "En total hay " 
+//                + PrendaJDBC.totalPrendas() + " prendas");
+        // Mismo error que en valor de stock
+        PrendaJDBC prendaJDBC = new PrendaJDBC();
+        try {
+            JOptionPane.showMessageDialog(this, "En total hay "+prendaJDBC.totalPrendas()+ " prendas");
+        } catch (miExcepcion ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
